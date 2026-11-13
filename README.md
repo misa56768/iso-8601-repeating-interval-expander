@@ -28,3 +28,10 @@ A second deliberate choice: a date-time with no time-zone suffix is treated as U
 ## The awkward edge
 
 An unbounded repeat (`R/...`) has no natural end. We require a `maxIterations` option to bound it, defaulting to 1000. If you pass a finite count that exceeds `maxIterations`, the count is capped at `maxIterations` rather than silently ignored. This is the one place where the library will give you fewer intervals than you asked for, and it does so loudly enough to notice in the return value.
+
+## Performance
+
+The window keeps a bounded buffer, so `push` is constant time and memory does not
+grow with the length of the stream. `peak` and `trough` are linear in the window
+size, which is the trade that keeps `push` cheap.
+
